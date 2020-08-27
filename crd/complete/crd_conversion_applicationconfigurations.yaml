@@ -1,0 +1,5 @@
+- op: remove
+  path: /spec/conversion/webhook
+- op: replace
+  path: /spec/conversion/strategy
+  value: None

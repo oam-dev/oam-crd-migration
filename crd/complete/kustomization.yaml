@@ -1,0 +1,13 @@
+resources:
+  - ./temp.yaml
+
+patchesJson6902:
+  - path: crd_conversion_applicationconfigurations.yaml
+    target:
+      kind: CustomResourceDefinition
+      name: applicationconfigurations.core.oam.dev
+      group: apiextensions.k8s.io
+      version: v1
+
+patches:
+  - core.oam.dev_applicationconfigurations_v1alpha2.yaml

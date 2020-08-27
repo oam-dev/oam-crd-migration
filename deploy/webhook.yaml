@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oam-crd-conversion
+  labels:
+    oam: crd-conversion
+spec:
+  ports:
+    - port: 443
+      targetPort: 9443
+  selector:
+    oam: crd-conversion
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oam-crd-conversion
+  labels:
+    oam: crd-conversion
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      oam: crd-conversion
+  template:
+    metadata:
+      name: oam-crd-conversion
+      labels:
+        oam: crd-conversion
+    spec:
+      containers:
+        - image: example:v0.1
+          name: convert
+          args:
+            - --tls-cert-file=/etc/webhook/cert/tls.crt
+            - --tls-private-key-file=/etc/webhook/cert/tls.key
+            - --port=9443
+          volumeMounts:
+            - name: ca
+              mountPath: "/etc/webhook/cert"
+              readOnly: true
+      volumes:
+        - name: ca
+          secret:
+            secretName: webhook-server-cert
