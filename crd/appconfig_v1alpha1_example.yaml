@@ -1,0 +1,71 @@
+apiVersion: core.oam.dev/v1alpha1
+kind: ApplicationConfiguration
+metadata:
+  name: complete-app
+spec:
+  components:
+    - componentName: stateless-component
+      instanceName: demo
+      parameterValues:
+        - name: showName
+          value: "demo-app"
+        - name: description
+          value: demo
+        - name: packageVersion
+          value: >
+            {"showName": "demoPackage", "RepoId": "registry-vpc.cn-beijing.aliyuncs.com/edas_test1/hello-world:dev"}
+        - name: replicas
+          value: "3"
+        - name: image
+          value: "registry-vpc.cn-beijing.aliyuncs.com/edas_test1/hello-world:dev"
+        - name: command
+          value: >
+            ["ls"]
+        - name: cmdArgs
+          value: >
+            ["/tmp"]
+        - name: requestsCpu
+          value: "200m"
+        - name: requestsMem
+          value: "20Mi"
+        - name: limitCpu
+          value: "1000m"
+        - name: limitMem
+          value: "1024Mi"
+        - name: liveness
+          value: >
+            {"failureThreshold": 3,"initialDelaySeconds": 5,"successThreshold": 1,
+            "timeoutSeconds": 1,"exec":{"command":["ls","/etc"]}}
+        - name: readiness
+          value: >
+            {"failureThreshold": 3,"initialDelaySeconds": 5,"successThreshold": 1,"timeoutSeconds": 1,
+            "exec":{"command":["ls","/etc"]}}
+        - name: postStart
+          value: >
+            {"exec":{"command":["ls","/etc"]}}
+        - name: preStop
+          value: >
+            {"exec":{"command":["ls","/etc"]}}
+        - name: envs
+          value: >
+            [{"Name":"k1", "Value":"v1"},{"Name":"k2", "Value":"v2"}]
+        - name: hostPaths
+          value: >
+            [{"type":"","path":"/tmp","mountPath":"/app/files", "readOnly":true, "name":"hp-1"},
+            {"type":"Directory","path":"/mnt","mountPath":"/app/storage", "readOnly":false, "name":"hp-2"}]
+        - name: emptyDirs
+          value: >
+            [{"name":"ed-1", "readOnly":false, "mountPath":"/m1"},{"name":"ed-2", "readOnly":true, "mountPath":"/m2"}]
+      traits:
+        - name: rollout
+          properties:
+            - name: canaryReplicas
+              value: "0"
+            - name: batches
+              value: "2"
+            - name: batchInterval
+              value: "5"
+            - name: instanceInterval
+              value: "1"
+            - name: auto
+              value: "true"
