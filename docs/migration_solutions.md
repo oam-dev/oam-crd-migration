@@ -31,7 +31,7 @@ Cons:
 - Hard to roll back.
 - No app-level granularity migration. It's one shot game for the entire cluster.
 
-## 2. Separate Clsuter Migration
+## 2. Separated Cluster Migration
 
 Another solution is to use two clusters to hold different versions of CRD.
 Similar to what's depicted in the following diagram:
@@ -52,4 +52,3 @@ It does a trick that creates an intermediate v2' CRD to hold migrated data while
 The following diagram depicts the workflow:
 
 ![Intermediate CRD](resources/int-crd.png)
-
