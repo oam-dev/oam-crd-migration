@@ -1,5 +1,6 @@
 # oam-crd-migration
-A tool to help you migrate OAM CRDs from v1alpha1 to v1alpha2
+
+A tool to help you migrate OAM CRDs from v1alpha1 to v1alpha2.
 
 This migration tool is primarily a conversion webhook like admission webhook. This webhook
 handles the `ConversionReview` requests sent by the API servers, and sends back conversion
@@ -7,6 +8,12 @@ results wrapped in `ConversionResponse` . The specific conversion logic can be c
 user.
 
 More details see [this](https://github.com/crossplane/oam-kubernetes-runtime/issues/108).
+
+# Migration Solutions
+
+In [this doc](docs/migration_solutions.md) we introduced all possible solutions we have thought through to do migration in general mechanism.
+
+This tool implements the first one which aligns with upstream and provides a self-contained solution.
 
 # What does it include?
 - [x] [crd conversion webhook](https://github.com/kubernetes/kubernetes/tree/master/test/images/agnhost)
